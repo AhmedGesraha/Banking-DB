@@ -21,13 +21,18 @@ CREATE TABLE IF NOT EXISTS bank.client (
 CREATE TABLE IF NOT EXISTS bank.savings_certificate (
 	certificateNum INT NOT NULL,
 	startDate DATE NOT NULL,
-	endDate DATE NOT NULL,
 	amount DOUBLE NOT NULL,
-	rate DOUBLE NOT NULL,
-	periodsPerYear INT NOT NULL,
-	currency CHAR(3) NOT NULL,
+	typeID INT NOT NULL,
 	id VARCHAR(30),
 	accountNum INT
+);
+
+CREATE TABLE IF NOT EXISTS bank.certificate_type (
+	typeId INT NOT NULL,
+	duration INT NOT NULL,
+	rate DOUBLE NOT NULL,
+	periodsPerYear INT NOT NULL,
+	currency CHAR(3) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS bank.credit_card (
@@ -121,6 +126,9 @@ ALTER TABLE bank.client
 ALTER TABLE bank.savings_certificate
 	ADD PRIMARY KEY (certificateNum);
 
+ALTER TABLE bank.certificate_type
+	ADD PRIMARY KEY (typeId);
+
 ALTER TABLE bank.credit_card
 	ADD PRIMARY KEY (cardNum);
 
@@ -167,6 +175,7 @@ ALTER TABLE bank.checking_account
 -- constraints
 
 ALTER TABLE bank.savings_certificate
+	ADD CONSTRAINT savings_certificate_typeId_FK FOREIGN KEY (typeId) REFERENCES bank.certificate_type (typeId) ON DELETE RESTRICT ON UPDATE CASCADE,
 	ADD CONSTRAINT savings_certificate_id_FK FOREIGN KEY (id) REFERENCES bank.client (id) ON DELETE RESTRICT ON UPDATE CASCADE,
 	ADD CONSTRAINT savings_certificate_accountNum_FK FOREIGN KEY (accountNum) REFERENCES bank.savings_account (accountNum) ON DELETE SET NULL ON UPDATE CASCADE;
 
