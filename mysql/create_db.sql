@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS bank.client (
 
 CREATE TABLE IF NOT EXISTS bank.savings_certificate (
 	certificateNum INT NOT NULL,
-	startDate DATE NOT NULL,
+	startDate DATE NOT NULL DEFAULT CURDATE(),
 	amount DOUBLE NOT NULL,
 	typeID INT NOT NULL,
 	id VARCHAR(30),
@@ -45,12 +45,12 @@ CREATE TABLE IF NOT EXISTS bank.credit_card (
 
 CREATE TABLE IF NOT EXISTS bank.savings_account (
 	accountNum INT NOT NULL,
-	issueDate DATE NOT NULL,
+	issueDate DATE NOT NULL DEFAULT CURDATE(),
 	rate DOUBLE NOT NULL,
-	balance DOUBLE NOT NULL,
-	available DOUBLE NOT NULL,
+	balance DOUBLE NOT NULL DEFAULT 0,
+	available DOUBLE NOT NULL DEFAULT 0,
 	currency CHAR(3) NOT NULL,
-	active BOOLEAN NOT NULL,
+	active BOOLEAN NOT NULL DEFAULT 1,
 	id VARCHAR(30) NOT NULL,
 	cardNum CHAR(16)
 );
@@ -60,18 +60,18 @@ CREATE TABLE IF NOT EXISTS bank.loan (
 	amount DOUBLE NOT NULL,
 	rate DOUBLE NOT NULL,
 	paid DOUBLE NOT NULL,
-	startDate DATE NOT NULL,
+	startDate DATE NOT NULL DEFAULT CURDATE(),
 	endDate DATE,
 	id VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS bank.checking_account (
 	accountNum INT NOT NULL,
-	issueDate DATE NOT NULL,
-	balance DOUBLE NOT NULL,
-	available DOUBLE NOT NULL,
+	issueDate DATE NOT NULL DEFAULT CURDATE(),
+	balance DOUBLE NOT NULL DEFAULT 0,
+	available DOUBLE NOT NULL DEFAULT 0,
 	currency CHAR(3) NOT NULL,
-	active BOOLEAN NOT NULL,
+	active BOOLEAN NOT NULL DEFAULT 1,
 	id VARCHAR(30) NOT NULL,
 	cardNum CHAR(16)
 );
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS bank.check (
 	accountNum INT NOT NULL,
 	redeemer_fname VARCHAR(20) NOT NULL,
 	redeemer_lname VARCHAR(20) NOT NULL,
-	redeemDate DATE NOT NULL,
+	redeemDate DATE NOT NULL DEFAULT CURDATE(),
 	writingDate DATE NOT NULL,
 	amount DOUBLE NOT NULL
 );
