@@ -3,7 +3,7 @@
 	{
 		if (array_key_exists('clientId', $_POST))
 		{
-			if ($_SESSION['logged_in'] && ($_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'm'))
+			if (array_key_exists('logged_in', $_SESSION) && array_key_exists('login_type', $_SESSION) && $_SESSION['logged_in'] && ($_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'm'))
 			{
 				$check_query = "SELECT * from client WHERE id='".$_POST['clientId']."'";
 
@@ -16,7 +16,7 @@
 
 					if (array_key_exists('address', $_POST))
 					{
-						$query = "UPDATE client SET address='".$_POST['address']."' WHERE clientId='".$_POST['clientId']."'";
+						$query = "UPDATE client SET address='".$_POST['address']."' WHERE id='".$_POST['clientId']."'";
 						
 						mysqli_query($connection, $query);
 						if (mysqli_affected_rows($connection) != 1)
@@ -25,7 +25,7 @@
 
 					if (array_key_exists('phone', $_POST))
 					{
-						$query = "UPDATE client SET phone='".$_POST['phone']."' WHERE clientId='".$_POST['clientId']."'";
+						$query = "UPDATE client SET phone='".$_POST['phone']."' WHERE id='".$_POST['clientId']."'";
 
 						mysqli_query($connection, $query);
 						if (mysqli_affected_rows($connection) != 1)
@@ -34,7 +34,7 @@
 
 					if (array_key_exists('salary', $_POST))
 					{
-						$query = "UPDATE client SET salary='".$_POST['salary']."' WHERE clientId='".$_POST['clientId']."'";
+						$query = "UPDATE client SET salary='".$_POST['salary']."' WHERE id='".$_POST['clientId']."'";
 
 						mysqli_query($connection, $query);
 						if (mysqli_affected_rows($connection) != 1)
