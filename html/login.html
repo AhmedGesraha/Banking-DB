@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+  <body>
+ <div class="page-header">
+  <div class="container-fluid">
+    <img class="col-sm-2" src="logo.png">
+  </div>
+ </div>
+ <h4 class="container-fluid">Home</h4>
+ <br>
+
+<div class="col-sm-offset-2 col-sm-3">
+    <h3><b>Client Login</b></h3>
+     <br>
+      <div class="form-group">
+      <label>Username</label>
+      <input type="text" class="form-control" id="username" placeholder="Username" required></div>
+       
+      <div class="form-group">
+      <label>Password</label>
+		      <input type="password" class="form-control" id="password" placeholder="Password" required></div>
+      <h4><small id="error_div" style="color:red"></small></h4>
+	<div class="col-sm-4">
+	<button type="submit" id="client_login" class="btn btn-primary">Login</button>
+      </div>
+</div>
+
+<div class="col-sm-offset-1 col-sm-3">
+    <h3><b>Employee Login</b></h3>
+     <br>
+      <div class="form-group">
+      <label>Username</label>
+      <input type="text" class="form-control" id="employee_username" placeholder="Username" required></div>
+       
+      <div class="form-group">
+      <label>Password</label>
+      <input type="password" class="form-control" id="employee_password" placeholder="Password" required></div>
+      <h4><small id="error_div1" style="color:red"></small></h4>
+	<div class="col-sm-4">
+	<button type="submit" id="employee_login" class="btn btn-primary">Login</button>
+      </div>
+</div>
+
+<script type="text/javascript" src="../js/login.js"></script>
+<script type="text/javascript" src="../js/display.js"></script>
+</body>
+
+</html>
