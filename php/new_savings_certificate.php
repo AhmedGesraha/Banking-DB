@@ -3,7 +3,7 @@
 	{
 		if (array_key_exists('clientId', $_POST) && array_key_exists('certTypeId', $_POST) && array_key_exists('amount', $_POST))
 		{
-			if ($_SESSION['logged_in'] && ($_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'm'))
+			if (array_key_exists('logged_in', $_SESSION) && array_key_exists('login_type', $_SESSION) && $_SESSION['logged_in'] && ($_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'm'))
 			{
 				$insert_query = "";
 				if (array_key_exists('accountNum', $_POST))
@@ -14,7 +14,7 @@
 				$connection = mysqli_connect("localhost", "root", "", "bank");
 				
 				mysqli_query($connection, $insert_query);
-				if (mysqli_affected_rows($conection) >= 1)
+				if (mysqli_affected_rows($connection) >= 1)
 				{
 					echo 0;
 				}

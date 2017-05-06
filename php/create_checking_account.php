@@ -3,11 +3,11 @@
 	{
 		if (array_key_exists('clientId', $_POST) && array_key_exists('currency', $_POST))
 		{
-			if ($_SESSION['logged_in'] && ($_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'm'))
+			if (array_key_exists('logged_in', $_SESSION) && array_key_exists('login_type', $_SESSION) && $_SESSION['logged_in'] && ($_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'm'))
 			{
 				$check_query = "SELECT * from client WHERE id='".$_POST['clientId']."'";
 
-				$insert_query = "INSERT INTO checking_account(currency, id) VALUES('".$_POST['currency']."', '".$_SESSION['clientId']."')";
+				$insert_query = "INSERT INTO checking_account(currency, id) VALUES('".$_POST['currency']."', '".$_POST['clientId']."')";
 
 				$connection = mysqli_connect("localhost", "root", "", "bank");
 				
@@ -15,7 +15,7 @@
 				if(mysqli_num_rows($result) == 1)		// client exists
 				{
 					$result = mysqli_query($connection, $insert_query);
-					if (mysqli_affected_rows($conection) == 1)
+					if (mysqli_affected_rows($connection) == 1)
 					{
 						echo 0;
 					}

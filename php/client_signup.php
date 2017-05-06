@@ -3,7 +3,7 @@
 	{
 		if (array_key_exists('clientId', $_POST) && array_key_exists('username', $_POST) && array_key_exists('password', $_POST))
 		{
-			if ($_SESSION['logged_in'] && ($_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'm'))
+			if (array_key_exists('logged_in', $_SESSION) && array_key_exists('login_type', $_SESSION) && $_SESSION['logged_in'] && ($_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'm'))
 			{
 				$check_query = "SELECT * from client WHERE username='".$_POST['username']."'";
 
@@ -20,10 +20,10 @@
 					if (mysqli_num_rows($result) == 1)				// client exists
 					{
 						$result = mysqli_fetch_assoc($result);
-						if ($result['uswername'] == null)
+						if ($result['username'] == null)
 						{
 							mysqli_query($connection, $signup_query);
-							if (mysqli_affected_rows($conection) == 1)
+							if (mysqli_affected_rows($connection) == 1)
 							{
 								echo 0;
 							}

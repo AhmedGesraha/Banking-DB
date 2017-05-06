@@ -3,7 +3,7 @@
 	{
 		if (array_key_exists('clientId', $_POST) || array_key_exists('client_id', $_SEESION))
 		{
-			if ($_SESSION['logged_in'])
+			if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'])
 			{
 				$cid = "";
 				if ($_SESSION['login_type'] == 'c')
@@ -19,7 +19,7 @@
 				
 				$result = mysqli_fetch_assoc($result);
 
-				echo "(".$result['id'].",".$result['status'].",".$result['dateofbirth'].",".$result['username'].",".$result['address'].",".$result['phone'].",".$result['salary'].",".$result['fname'].",".$result['lname'].")";
+				echo "(".$result['id'].",".$result['status'].",".$result['dateOfBirth'].",".$result['username'].",".$result['address'].",".$result['phone'].",".$result['salary'].",".$result['fname'].",".$result['lname'].")";
 
 				mysqli_close($connection);
 			}

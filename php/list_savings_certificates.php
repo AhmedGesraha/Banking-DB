@@ -3,7 +3,7 @@
 	{
 		if (array_key_exists('clientId', $_POST) || array_key_exists('client_id', $_SEESION))
 		{
-			if ($_SESSION['logged_in'] && ($_SESSION['login_type'] == 'm' || $_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'c'))
+			if ((array_key_exists('logged_in', $_SESSION) && array_key_exists('login_type', $_SESSION) && $_SESSION['logged_in'] && ($_SESSION['login_type'] == 'm' || $_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'c')))
 			{
 				$cid = "";
 				if ($_SESSION['login_type'] == 'c')
@@ -19,7 +19,7 @@
 				
 				foreach ($result as $certificate)
 				{
-					echo "(".$certificate['certificatenum'].",".$certificate['startdate'].",".$certificate['duration'].",".$certificate['amount'].",".$certificate['rate'].",".$certificate['periodsperyear'].",".$certificate['currency'].",".$certificate['accoutnum'].")";
+					echo "(".$certificate['certificateNum'].",".$certificate['startDate'].",".$certificate['duration'].",".$certificate['amount'].",".$certificate['rate'].",".$certificate['periodsPerYear'].",".$certificate['currency'].",".$certificate['accountNum'].")";
 				}
 
 				mysqli_close($connection);

@@ -3,7 +3,7 @@
 	{
 		if (array_key_exists('clientId', $_POST) || array_key_exists('client_id', $_SEESION))
 		{
-			if ($_SESSION['logged_in'] && ($_SESSION['login_type'] == 'm' || $_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'c'))
+			if (array_key_exists('logged_in', $_SESSION) && array_key_exists('login_type', $_SESSION) && $_SESSION['logged_in'] && ($_SESSION['login_type'] == 'm' || $_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'c'))
 			{
 				$query = "SELECT * FROM certificate_type";
 
@@ -12,7 +12,7 @@
 				$result = mysqli_query($connection, $query);
 				foreach ($result as $certificate)
 				{
-					echo "(".$certificate['typeId'].",".$certificate['duration'].",".$certificate['rate'].",".$certificate['periodsperyear'].",".$certificate['currency'].")";
+					echo "(".$certificate['typeId'].",".$certificate['duration'].",".$certificate['rate'].",".$certificate['periodsPerYear'].",".$certificate['currency'].")";
 				}
 
 				mysqli_close($connection);

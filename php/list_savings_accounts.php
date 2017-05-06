@@ -3,7 +3,7 @@
 	{
 		if (array_key_exists('clientId', $_POST) || array_key_exists('client_id', $_SEESION))
 		{
-			if ($_SESSION['logged_in'])
+			if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'])
 			{
 				$cid = "";
 				if (array_key_exists('clientId', $_POST))
@@ -18,7 +18,7 @@
 				$result = mysqli_query($connection, $query);
 				foreach ($result as $account)
 				{
-					echo "(".$account['accountnum'].",".$account['currency'].",".$account['rate'].",".$account['balance'].",".$account['available'].",".$account['active'].",".$account['issuedate'].",".$account['cardnum'].")";
+					echo "(".$account['accountNum'].",".$account['currency'].",".$account['rate'].",".$account['balance'].",".$account['available'].",".$account['active'].",".$account['issueDate'].",".$account['cardNum'].")";
 				}
 
 				mysqli_close($connection);
