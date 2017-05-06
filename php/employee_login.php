@@ -1,8 +1,8 @@
 <?php
 	if (array_key_exists('username', $_POST) && array_key_exists('password', $_POST))
 	{
-		$password = hash('sha256', $_POST['password'], false);
-		//$password = $_POST['password'];
+		//$password = hash('sha256', $_POST['password'], false);
+		$password = $_POST['password'];
 
 		$query = "SELECT * FROM employee WHERE username='".$_POST['username']."' AND password='".$password."'";
 
