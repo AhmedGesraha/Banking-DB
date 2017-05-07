@@ -11,7 +11,7 @@ $("body").on("click", "#signup", function() {
 	else
 	$.ajax({
 		type: "POST",
-		url : "../php/new_client.php",
+		url : "php/new_client.php",
 		data: {"fname":fname,"lname":lname,"dateOfBirth":dateOfBirth,"clientId":clientId,"address":address,"phone":phone,"salary":salary},
 		success: function(result){
 			if(result == 1)
@@ -37,7 +37,7 @@ $("body").on("click", "#Online_Signup", function() {
 	else
 	$.ajax({
 		type: "POST",
-		url : "../php/client_signup.php",
+		url : "php/client_signup.php",
 		data: {"clientId":clientId,"username":username,"password":password},
 		success: function(result){
 			if(result == 1)

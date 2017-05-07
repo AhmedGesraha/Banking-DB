@@ -12,7 +12,7 @@ $("body").on("click", "#update", function() {
 	else
 	$.ajax({
 		type: "POST",
-		url : "../php/update_client_info.php",
+		url : "php/update_client_info.php",
 		data: formdata,
   		processData: false,
 	  	contentType: false,

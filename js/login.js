@@ -6,7 +6,7 @@ $("#employee_login").click(function(){
 	else
 	$.ajax({
 		type: "POST",
-		url : "../php/employee_login.php",
+		url : "php/employee_login.php",
 		data: {"username":username,"password":password},
 		success: function(result){
 			if(result == 0  || result == 1 || result == 2)
@@ -29,7 +29,7 @@ $("#client_login").click(function(){
 	else
 	$.ajax({
 		type: "POST",
-		url : "../php/client_login.php",
+		url : "php/client_login.php",
 		data: {"username":username,"password":password},
 		success: function(result){
 			if(result == 1)
@@ -39,7 +39,11 @@ $("#client_login").click(function(){
 			else if(result == 3)
 				$("#error_div").html("Session error");
 			else
+			{
 				location.href = "home.html";
+				//$("#page_contents").show();
+				//$("#login").hide();
+			}
 		}
 	});
 });

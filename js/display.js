@@ -1,8 +1,19 @@
 $(document).ready(function(){
 	$.ajax({
 		type: "POST",
-		url : "../php/is_logged_in.php",
+		url : "php/is_logged_in.php",
 		success: function(result){
+			if(result == 0)
+			{
+				$("#page_contents").hide();
+				$("#login").show();
+			}
+			else
+			{
+				$("#page_contents").show();
+				$("#login").hide();
+			}
+
 			if(result == 'c')
 			{	
 				$("#Update").hide();
@@ -33,10 +44,6 @@ $(document).ready(function(){
 				$("#Withdraw").hide();
 				$("#Check").hide();
 			}
-			if(result == 0 && location.href == "http://localhost/Banking%20System/html/home.html")
-				location.href="login.html";
-			else if(result != 0 && location.href == "http://localhost/Banking%20System/html/login.html")
-				location.href="home.html";
 		}
 	});
 });
@@ -111,9 +118,11 @@ $("#Savings_Cert").click(function(){
 $("#Logout").click(function(){
 	$.ajax({
 		type: "POST",
-		url : "../php/logout.php"
+		url : "php/logout.php"
 	});
-	location.href="login.html";
+	$("#page_contents").hide();
+	$("#login").show();
+	//location.href="login.html";
 });
 
 $("#body").on("click", "#list_savings", function() {
@@ -130,7 +139,7 @@ $("#body").on("click", "#search", function() {
 	var clientId = $("#clientId").val();
 	$.ajax({
 		type: "POST",
-		url : "../php/list_savings_accounts.php",
+		url : "php/list_savings_accounts.php",
 		data: {"clientId" : clientId},
 		success: function(result){
 			if(result == 1)
@@ -145,7 +154,7 @@ $("#body").on("click", "#search1", function() {
 	var clientId = $("#clientId").val();
 	$.ajax({
 		type: "POST",
-		url : "../php/list_checking_accounts.php",
+		url : "php/list_checking_accounts.php",
 		data: {"clientId" : clientId},
 		success: function(result){
 			if(result == 1)
@@ -173,7 +182,7 @@ $("#body").on("click", "#create", function() {
 	else
 	$.ajax({
 		type: "POST",
-		url : "../php/create_savings_account.php",
+		url : "php/create_savings_account.php",
 		data: {"clientId" : clientId,"currency" : currency},
 		success: function(result){
 			if(result == 1)
@@ -198,7 +207,7 @@ $("#body").on("click", "#create1", function() {
 	else
 	$.ajax({
 		type: "POST",
-		url : "../php/create_checking_account.php",
+		url : "php/create_checking_account.php",
 		data: {"clientId" : clientId,"currency" : currency},
 		success: function(result){
 			if(result == 1)
