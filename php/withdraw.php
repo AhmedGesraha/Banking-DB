@@ -3,7 +3,7 @@
 	{
 		if (array_key_exists('accountNum', $_POST) && array_key_exists('accountType', $_POST) && array_key_exists('amount', $_POST))
 		{
-			if ($_SESSION['logged_in'] && ($_SESSION['login_type'] == 't' || $_SESSION['login_type'] == 'm'))
+			if (array_key_exists('logged_in', $_SESSION) && array_key_exists('login_type', $_SESSION) && $_SESSION['logged_in'] && ($_SESSION['login_type'] == 't' || $_SESSION['login_type'] == 'm'))
 			{
 				$check_query = "";
 				if ($_POST['accountType'] == 'c')
@@ -26,7 +26,7 @@
 							$update_query = "UPDATE savings_account SET balance=balance-".$_POST['amount'].",available=available-".$_POST['amount']." WHERE accountNum='".$_POST['accountNum']."'";
 
 						mysqli_query($connection, $update_query);
-						if (mysqli_affected_rows($conection) == 1)
+						if (mysqli_affected_rows($connection) == 1)
 						{
 							echo 0;
 						}

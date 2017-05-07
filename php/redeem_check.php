@@ -3,7 +3,7 @@
 	{
 		if (array_key_exists('checkNum', $_POST) && array_key_exists('accountNum', $_POST) && array_key_exists('writingDate', $_POST) && array_key_exists('amount', $_POST) && array_key_exists('redeemerFname', $_POST) && array_key_exists('redeemerLname', $_POST))
 		{
-			if ($_SESSION['logged_in'] && ($_SESSION['login_type'] == 't' || $_SESSION['login_type'] == 'm'))
+			if (array_key_exists('logged_in', $_SESSION) && array_key_exists('login_type', $_SESSION) && $_SESSION['logged_in'] && ($_SESSION['login_type'] == 't' || $_SESSION['login_type'] == 'm'))
 			{
 				$check_query = "SELECT * from checking_account WHERE accountNum=".$_POST['accountNum'];
 
@@ -15,20 +15,20 @@
 					$result = mysqli_fetch_assoc($result);
 					if ($result['available'] >= $_POST['amount'])
 					{
-						$insert_query = "INSERT INTO check(checkNum, accountNum, redeemer_fname, redeemer_lname, writingdate, amount) VALUES(".$_POST['checkNum'].",'".$_POST['accountNum']."','".$_POST['redeemerFname']."','".$_POST['redeemerLname']."','".$_POST['writingDate']."',".$_POST['amount'].")";
+						$insert_query = "INSERT INTO check(checkNum, accountNum, redeemer_fname, redeemer_lname, writingDate, amount) VALUES(".$_POST['checkNum'].",'".$_POST['accountNum']."','".$_POST['redeemerFname']."','".$_POST['redeemerLname']."','".$_POST['writingDate']."',".$_POST['amount'].")";
 
 						$update_query = "UPDATE checking_account SET balance=balance-".$_POST['amount'].",available=available-".$_POST['amount']." WHERE accountNum='".$_POST['accountNum']."'";
 
 						$success = true;
 				
 						mysqli_query($connection, $insert_query);
-						if (mysqli_affected_rows($conection) != 1)
+						if (mysqli_affected_rows($connection) != 1)
 						{
 							$success = false;
 						}
 						
 						mysqli_query($connection, $update_query);
-						if (mysqli_affected_rows($conection) != 1)
+						if (mysqli_affected_rows($connection) != 1)
 						{
 							$success = false;
 						}
