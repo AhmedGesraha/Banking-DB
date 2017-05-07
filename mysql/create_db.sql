@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS certificate_type (
 );
 
 CREATE TABLE IF NOT EXISTS credit_card (
-	cardNum CHAR(16) NOT NULL,
+	cardNum INT NOT NULL,
 	max DOUBLE PRECISION NOT NULL,
 	currency CHAR(3) NOT NULL,
 	pin VARCHAR(256) NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS savings_account (
 	currency CHAR(3) NOT NULL,
 	active BOOLEAN NOT NULL DEFAULT 1,
 	id VARCHAR(30) NOT NULL,
-	cardNum CHAR(16)
+	cardNum INT
 );
 
 CREATE TABLE IF NOT EXISTS loan (
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS checking_account (
 	currency CHAR(3) NOT NULL,
 	active BOOLEAN NOT NULL DEFAULT 1,
 	id VARCHAR(30) NOT NULL,
-	cardNum CHAR(16)
+	cardNum INT
 );
 
 CREATE TABLE IF NOT EXISTS bank.check (
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS bank.check (
 );
 
 CREATE TABLE IF NOT EXISTS debit_card (
-	cardNum CHAR(16) NOT NULL,
+	cardNum INT NOT NULL,
 	pin VARCHAR(256) NOT NULL
 );
 
@@ -162,6 +162,9 @@ ALTER TABLE employee
 ALTER TABLE savings_certificate
 	MODIFY certificateNum INT NOT NULL AUTO_INCREMENT;
 
+ALTER TABLE certificate_type
+	MODIFY typeId INT NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE savings_account
 	MODIFY accountNum INT NOT NULL AUTO_INCREMENT;
 
@@ -170,6 +173,12 @@ ALTER TABLE loan
 
 ALTER TABLE checking_account
 	MODIFY accountNum INT NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE debit_card
+	MODIFY cardNum INT NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE credit_card
+	MODIFY cardNum INT NOT NULL AUTO_INCREMENT;
 
 
 -- foriegn key constraints
@@ -210,9 +219,7 @@ DELIMITER $
 CREATE TRIGGER savings_certificate_startDate_default 
 	BEFORE INSERT ON savings_certificate FOR EACH ROW
 	SET_DEF: BEGIN
-		IF (isnull(NEW.startDate)) THEN
-	 		SET NEW.startDate=CURDATE();
-	 	END IF;
+ 		SET NEW.startDate=CURDATE();
 	END SET_DEF $
 DELIMITER ;
 
@@ -220,9 +227,7 @@ DELIMITER $
 CREATE TRIGGER savings_account_issueDate_default 
 	BEFORE INSERT ON savings_account FOR EACH ROW
 	SET_DEF: BEGIN
-		IF (isnull(NEW.issueDate)) THEN
-	 		SET NEW.issueDate=CURDATE();
-	 	END IF;
+ 		SET NEW.issueDate=CURDATE();
 	END SET_DEF $
 DELIMITER ;
 
@@ -230,9 +235,7 @@ DELIMITER $
 CREATE TRIGGER loan_startDate_default 
 	BEFORE INSERT ON loan FOR EACH ROW
 	SET_DEF: BEGIN
-		IF (isnull(NEW.startDate)) THEN
-	 		SET NEW.startDate=CURDATE();
-	 	END IF;
+ 		SET NEW.startDate=CURDATE();
 	END SET_DEF $
 DELIMITER ;
 
@@ -240,9 +243,7 @@ DELIMITER $
 CREATE TRIGGER checking_account_issueDate_default 
 	BEFORE INSERT ON checking_account FOR EACH ROW
 	SET_DEF: BEGIN
-		IF (isnull(NEW.issueDate)) THEN
-	 		SET NEW.issueDate=CURDATE();
-	 	END IF;
+ 		SET NEW.issueDate=CURDATE();
 	END SET_DEF $
 DELIMITER ;
 
@@ -250,8 +251,6 @@ DELIMITER $
 CREATE TRIGGER check_redeemDate_default 
 	BEFORE INSERT ON bank.check FOR EACH ROW
 	SET_DEF: BEGIN
-		IF (isnull(NEW.redeemDate)) THEN
-	 		SET NEW.redeemDate=CURDATE();
-	 	END IF;
+ 		SET NEW.redeemDate=CURDATE();
 	END SET_DEF $
 DELIMITER ;
