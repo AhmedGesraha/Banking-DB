@@ -7,3 +7,5 @@ INSERT INTO `certificate_type`(`duration`, `rate`, `periodsPerYear`, `currency`)
 -- adding a savings certificate not linked to a savings account
 INSERT INTO `savings_certificate`(`amount`, `typeID`, `id`) VALUES (10000,1,'111122223333');
 
+-- creating a new savings account without a linked debit card
+INSERT INTO `savings_account`(`currency`, `id`) VALUES ('EGP','111122223333');

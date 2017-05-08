@@ -46,12 +46,13 @@ CREATE TABLE IF NOT EXISTS credit_card (
 CREATE TABLE IF NOT EXISTS savings_account (
 	accountNum INT NOT NULL,
 	issueDate DATE NOT NULL,
-	rate DOUBLE PRECISION NOT NULL,
+	rate DOUBLE PRECISION NOT NULL DEFAULT 0,
 	balance DOUBLE PRECISION NOT NULL DEFAULT 0,
 	available DOUBLE PRECISION NOT NULL DEFAULT 0,
 	currency CHAR(3) NOT NULL,
 	active BOOLEAN NOT NULL DEFAULT 1,
 	id VARCHAR(30) NOT NULL,
+	lastOperationDate DATE NOT NULL,
 	cardNum INT
 );
 
@@ -73,6 +74,7 @@ CREATE TABLE IF NOT EXISTS checking_account (
 	currency CHAR(3) NOT NULL,
 	active BOOLEAN NOT NULL DEFAULT 1,
 	id VARCHAR(30) NOT NULL,
+	lastOperationDate DATE NOT NULL,
 	cardNum INT
 );
 
@@ -227,8 +229,15 @@ DELIMITER $
 CREATE TRIGGER savings_account_issueDate_default 
 	BEFORE INSERT ON savings_account FOR EACH ROW
 	SET_DEF: BEGIN
+ 		SET NEW.lastOperationDate=CURDATE();
  		SET NEW.issueDate=CURDATE();
 	END SET_DEF $
+DELIMITER ;
+
+DELIMITER $
+CREATE TRIGGER savings_account_lastOperationDate_update
+	AFTER UPDATE ON savings_account FOR EACH ROW
+ 		SET @lastOperationDate=CURDATE();
 DELIMITER ;
 
 DELIMITER $
@@ -243,8 +252,15 @@ DELIMITER $
 CREATE TRIGGER checking_account_issueDate_default 
 	BEFORE INSERT ON checking_account FOR EACH ROW
 	SET_DEF: BEGIN
+ 		SET NEW.lastOperationDate=CURDATE();
  		SET NEW.issueDate=CURDATE();
 	END SET_DEF $
+DELIMITER ;
+
+DELIMITER $
+CREATE TRIGGER checking_account_lastOperationDate_update
+	AFTER UPDATE ON checking_account FOR EACH ROW
+ 		SET @lastOperationDate=CURDATE();
 DELIMITER ;
 
 DELIMITER $
