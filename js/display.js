@@ -19,6 +19,7 @@ $(document).ready(function(){
 				$("#Update").hide();
 				$("#Create_Account").hide();
 				$("#Signup").hide();
+				$("#Debit_Credit").hide();
 				$("#Loans").hide();
 				$("#Debts").hide();
 				$("#Deposit").hide();
@@ -88,7 +89,7 @@ $("#Accounts").click(function(){
 });
 
 $("#Debit_Credit").click(function(){
-	$("#body").html("<div class=\"col-sm-7\"><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"create_debit\">Create New Debit Card</button></div><div class=\"col-sm-offset-1 col-sm-3\"><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"create_credit\">Create New Credit Card</button></div>");
+	$("#body").html("<div class=\"col-sm-7\"><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"create_debit\">New Debit Card</button></div><div class=\"col-sm-offset-1 col-sm-3\"><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"create_credit\">New Credit Card</button></div><br><br><br><div class=\"col-sm-offset-3 col-sm-3\"><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"add_account\">Add account to debit card</button></div>");
 	$("#title").html("Profile > Debit & Credit Cards");
 	$("#header").html("Debit & Credit Cards");
 });
@@ -100,6 +101,7 @@ $("#Loans").click(function(){
 });
 
 $("#History").click(function(){
+	$("#body").html();
 	$("#title").html("Profile > History");
 	$("#header").html("History");
 });
@@ -123,6 +125,16 @@ $("#Check").click(function(){
 });
 
 $("#Savings_Cert").click(function(){
+	$.ajax({
+		type: "POST",
+		url : "php/is_logged_in.php",
+		success: function(result){
+			if(result == 'c')
+				$("#body").html("<div class=\"col-sm-offset-2 col-sm-3\"><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"list_cert\">List Savings Certificates</button></div>");
+			else
+				$("#body").html("<div class=\"col-sm-7\"><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"create_cert\">New Savings Certificate</button></div><div class=\"col-sm-offset-1 col-sm-3\"><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"list_cert\">List Savings Certificates</button></div>");
+		}
+	});
 	$("#title").html("Profile > Savings Certificates");
 	$("#header").html("Savings Certificates");
 });
@@ -146,10 +158,7 @@ $("#body").on("click", "#list_savings", function() {
 					type: "POST",
 					url : "php/list_savings_accounts.php",
 					success: function(result){
-						if(result == 1)
-							$("#error_div").html("No such client");
-						else
-							$("#body").html(result);
+						$("#body").html(result);
 					}
 				});
 			else
@@ -169,14 +178,13 @@ $("#body").on("click", "#list_checking", function() {
 					type: "POST",
 					url : "php/list_checking_accounts.php",
 					success: function(result){
-						if(result == 1)
-							$("#error_div").html("No such client");
-						else
-							$("#body").html(result);
+						$("#body").html(result);
 					}
 				});
 			else
 				$("#body").html("<h3><b>Checking Accounts Listing</b></h3><br><div class='form-group'><label>ID</label><input type='text' class='form-control' id='clientId' placeholder='SSN of client' required></div><h4><small id='error_div' style='color:red'></small></h4><br><div class='col-sm-4'><button type='button' class='btn btn-info' id='search_checking'>Confirm</button></div>");
+		}
+	});
 	$("#title").append(" > Checking Account Listing");
 });
 
@@ -211,12 +219,12 @@ $("#body").on("click", "#search_checking", function() {
 });
 
 $("#body").on("click", "#create_savings", function() {
-	$("#body").html("<h3><b>Create Savings Account</b></h3><br><div class='form-group'><label>ID</label><input type='text' class='form-control' id='clientId' placeholder='SSN of client' required></div><label>Currency</label><select class='form-control' id='currency'><option value='USD'>US Dollar</option><option value='EGP'>EG Pound</option><option value='EUR'>EU Euro</option><option value='KWD'>KW Dinar</option></select></div><h4><small id='error_div' style='color:red'></small></h4><br><div class='col-sm-4'><button type='button' class='btn btn-info' id='savings_create'>Create</button></div>");
+	$("#body").html("<h3><b>Create Savings Account</b></h3><br><div class='form-group'><label>ID</label><input type='text' class='form-control' id='clientId' placeholder='SSN of client' required></div><label>Currency</label><select class='form-control' id='currency'><option value='USD'>US Dollar</option><option value='EGP'>EG Pound</option><option value='EUR'>EU Euro</option><option value='KWD'>KW Dinar</option></select><h4><small id='error_div' style='color:red'></small></h4><br><div class='col-sm-4'><button type='button' class='btn btn-info' id='savings_create'>Create</button></div>");
 	$("#title").append(" > Savings Account Creation");
 });
 
 $("#body").on("click", "#create_checking", function() {
-	$("#body").html("<h3><b>Create Checking Account</b></h3><br><div class='form-group'><label>ID</label><input type='text' class='form-control' id='clientId' placeholder='SSN of client' required></div><label>Currency</label><select class='form-control' id='currency'><option>US Dollar</option><option>EG Pound</option><option>EU Euro</option><option>KW Dinar</option></select></div><h4><small id='error_div' style='color:red'></small></h4><br><div class='col-sm-4'><button type='button' class='btn btn-info' id='checking_create'>Create</button></div>");
+	$("#body").html("<h3><b>Create Checking Account</b></h3><br><div class='form-group'><label>ID</label><input type='text' class='form-control' id='clientId' placeholder='SSN of client' required></div><label>Currency</label><select class='form-control' id='currency'><option value='USD'>US Dollar</option><option value='EGP'>EG Pound</option><option value='EUR'>EU Euro</option><option value='KWD'>KW Dinar</option></select><h4><small id='error_div' style='color:red'></small></h4><br><div class='col-sm-4'><button type='button' class='btn btn-info' id='checking_create'>Create</button></div>");
 	$("#title").append(" > Checking Account Creation");	
 });
 
@@ -275,7 +283,7 @@ $("#body").on("click", "#create_debit", function() {
 });
 
 $("#body").on("click", "#create_credit", function() {
-	$("#body").html("<h3><b>Create Credit Card</b></h3><br><div class='form-group'><br><label>Client ID</label><input type='text' class='form-control' id='ID' placeholder='SSN of client' required></div><div class='form-group'><label>PIN</label><input type='password' class='form-control' id='PIN' placeholder='PIN' required></div><h4><select class='form-control' id='currency'><option>US Dollar</option><option>EG Pound</option><option>EU Euro</option><option>KW Dinar</option></select></div><div class='form-group'><br><label>Maximum Limit</label><input type='number' min='1000' class='form-control' id='max' placeholder='Maximum amount held' required></div><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='credit_create' class='btn btn-info'>Create</button></div>");
+	$("#body").html("<h3><b>Create Credit Card</b></h3><br><div class='form-group'><br><label>Client ID</label><input type='text' class='form-control' id='ID' placeholder='SSN of client' required></div><div class='form-group'><label>PIN</label><input type='password' class='form-control' id='PIN' placeholder='PIN' required></div><h4><select class='form-control' id='currency'><option value='USD'>US Dollar</option><option value='EGP'>EG Pound</option><option value='EUR'>EU Euro</option><option value='KWD'>KW Dinar</option></select><div class='form-group'><br><label>Maximum Limit</label><input type='text' class='form-control' id='max' placeholder='Maximum amount held' required></div><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='credit_create' class='btn btn-info'>Create</button></div>");
 });
 
 $("#body").on("click", "#debit_create", function() {
@@ -334,9 +342,6 @@ $("#body").on("click", "#deposit", function() {
 	var accountNum = $("#accountNo").val();
 	var accountType = $("#type").val();
 	var amount = $("#amount").val();
-	console.log(accountNum);
-	console.log(accountType);
-	console.log(amount);
 	if(accountNum == "" || amount == "")
 		$("#error_div").html("All fields are required");
 	else
@@ -353,8 +358,8 @@ $("#body").on("click", "#deposit", function() {
 				$("#error_div").html("No such account");
 			else if(result == 4)
 				$("#error_div").html("Unexpected error");
-			//else
-				//location.href="home.html";
+			else
+				location.href="home.html";
 		}
 	});
 });
@@ -416,4 +421,80 @@ $("#body").on("click", "#redeem", function() {
 				location.href="home.html";
 		}
 	});
+});
+
+$("#body").on("click", "#list_cert", function() {
+	$.ajax({
+		type: "POST",
+		url : "php/is_logged_in.php",
+		success: function(result){
+			if(result == 'c')
+				$.ajax({
+					type: "POST",
+					url : "php/list_savings_certificates.php",
+					success: function(result){
+						$("#body").html(result);
+					}
+				});
+			else
+				$("#body").html("<h3><b>List Savings Certificates</b></h3><br><div class='form-group'><br><label>Client ID</label><input type='text' class='form-control' id='ID' placeholder='SSN of client' required></div><h4><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='cert_list' class='btn btn-info'>List</button></div>");
+		}
+	});
+	$("#title").append(" > Savings Certificates Listing");	
+});
+
+$("#body").on("click", "#cert_list", function() {
+	var clientId = $("#ID").val();
+	$.ajax({
+		type: "POST",
+		url : "php/list_savings_certificates.php",
+		data: {"clientId" : clientId},
+		success: function(result){
+			if(result == 1)
+				$("#error_div").html("No such client");
+			else
+				$("#body").html(result);
+		}
+	});
+});
+
+$("#body").on("click", "#create_cert", function() {
+	$("#body").html("<h3><b>New Savings Certificate</b></h3><br><div class='form-group'><br><label>Client ID</label><input type='text' class='form-control' id='ID' placeholder='SSN of client' required></div><div class='form-group'><label>Account ID (Optional)</label><input type='text' class='form-control' id='accountNum' placeholder='Account number associted with new cerificate'></div><div class='form-group'><label>Amount</label><input type='text' class='form-control' id='amount' placeholder='Amount deposited' required='true'></div><label>Certificate Type</label><select class='form-control' id='cert_type'></select></div><h4><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='cert_create' class='btn btn-info'>Create</button></div>");
+	$("#title").append(" > Savings Certificate Creation");
+});
+
+$("#body").on("click", "#cert_type", function() {
+	$.ajax({
+		type: "POST",
+		url : "php/list_savings_certificate_types.php",
+		success: function(result){
+			$("#cert_type").html(result);
+		}
+	});
+});
+
+$("#body").on("click", "#cert_create", function() {
+	var clientId = $("#ID").val();
+	var certTypeId = $("#cert_type").val();
+	var amount = $("#amount").val();
+	$.ajax({
+		type: "POST",
+		url : "php/new_savings_certificate.php",
+		data: {"clientId" : clientId,"certTypeId" : certTypeId,"amount" : amount},
+		success: function(result){
+			if(result == 1)
+				$("#error_div").html("Session error");
+			if(result == 2)
+				$("#error_div").html("All required fields must be filled");
+			if(result == 3)
+				$("#error_div").html("Unexpected error");
+			else
+				$("#body").html(result);
+		}
+	});
+});
+
+$("#body").on("click", "#add_account", function() {
+	$("#body").html("<h3><b>Add Account to Debit Card</b></h3><br><div class='form-group'><label>Card No</label><input type='text' class='form-control' id='cardNum' placeholder='Card number' required></div><div class='form-group'><label>Account No</label><input type='text' class='form-control' id='accountNum' placeholder='Account number' required></div><div class='form-group'><label>Type</label><select class='form-control' id='type'><option value='s'>Savings</option><option value='c'>Checking</option></select></div><h4><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='add' class='btn btn-info'>Add</button></div>");
+	$("#title").append(" > Account-Debit Card Associating");
 });
