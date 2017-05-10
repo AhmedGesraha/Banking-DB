@@ -35,12 +35,10 @@ $(document).ready(function(){
 				$("#Debit_Credit").hide();
 				$("#Loans").hide();
 				$("#Debts").hide();
-				$("#History").hide();
 				$("#create").hide();
 			}
 			else if(result == 's')
 			{
-				$("#History").hide();
 				$("#Deposit").hide();
 				$("#Withdraw").hide();
 				$("#Check").hide();
@@ -63,14 +61,14 @@ $("#Update").click(function(){
 
 $("#Create_Account").click(function(){
 	$("#body").html("<h3><b>Create Account</b></h3><div class='form-group'><br><label>Client ID</label><input type='text' class='form-control' id='Client_id' placeholder='SSN of client' required></div><div class='form-group'><label>Username</label><input type='text' class='form-control' id='Username' placeholder='Username' required></div><div class='form-group'><label>Password</label><input type='password' class='form-control' id='Password' placeholder='Password' required></div><h4><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='Online_Signup' class='btn btn-info'>Sign up</button></div>");
-	$("#title").html("Profile > Create Master Account");
-	$("#header").html("Create Account");
+	$("#title").html("Profile > Online account");
+	$("#header").html("Online account");
 });
 
 $("#Signup").click(function(){
-	$("#title").html("Profile > Signup");
+	$("#title").html("Profile > New Account");
 	$("#body").html("<h3><b>Sign up</b></h3><br><div class='form-group'><label>First Name</label><input type='text' class='form-control' id='First_Name' placeholder='First name' required></div><div class='form-group'><label>Last Name</label><input type='text' class='form-control' id='Last_Name' placeholder='Last name' required></div><div class='form-group'><label>Date of Birth</label><input type='date' max='1999-12-31' class='form-control' id='DoB' required></div><div class='form-group'><label>ID</label><input type='text' class='form-control' id='ID' placeholder='SSN of client' required></div><div class='form-group'><label>Address (optional)</label><input type='text' class='form-control' id='Address' placeholder='Address'></div><div class='form-group'><label>Phone No. (optional)</label><input type='text' class='form-control' id='Phone' placeholder='Phone #'></div><div class='form-group'><label>Salary (optional)</label><input type='text' class='form-control' id='Salary' placeholder='Salary'></div><h4><small id='error_div' style='color:red'></small></h4><br><div class='col-sm-4'><button type='button' class='btn btn-info' id='signup'>Sign up</button></div>");
-	$("#header").html("Signup");
+	$("#header").html("New Account");
 });
 
 $("#Accounts").click(function(){
@@ -100,12 +98,6 @@ $("#Loans").click(function(){
 	$("#header").html("Loans");
 });
 
-$("#History").click(function(){
-	$("#body").html();
-	$("#title").html("Profile > History");
-	$("#header").html("History");
-});
-
 $("#Deposit").click(function(){
 	$("#body").html("<h3><b>Deposit</b></h3><br><div class='form-group'><label>Account No</label><input type='text' class='form-control' id='accountNo' placeholder='Account Number' required></div><div class='form-group'><label>Amount</label><input type='text' class='form-control' id='amount' placeholder='Amount to be deposited' required></div><div class='form-group'><label>Type</label><select class='form-control' id='type'><option value='s'>Savings</option><option value='c'>Checking</option></select></div><h4><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='deposit' class='btn btn-info'>Deposit</button></div>");
 	$("#title").html("Profile > Deposit");
@@ -120,8 +112,8 @@ $("#Withdraw").click(function(){
 
 $("#Check").click(function(){
 	$("#body").html("<h3><b>Redeem Check</b></h3><br><div class='form-group'><label>Check No</label><input type='text' class='form-control' id='checkNo' placeholder='Check number' required></div><div class='form-group'><label>Account No</label><input type='text' class='form-control' id='accountNo' placeholder='Account number' required></div><div class='form-group'><label>Writing Date</label><input type='date' class='form-control' id='writingDate' required></div><div class='form-group'><label>Amount</label><input type='text' class='form-control' id='amount' placeholder='Amount to be withdrawn' required></div><div class='form-group'><label>First Name</label><input type='text' class='form-control' id='redeemerFname' placeholder='First name of redeemer' required></div><div class='form-group'><label>Last Name</label><input type='text' class='form-control' id='redeemerLname' placeholder='Last name of redeemer' required></div><h4><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='redeem' class='btn btn-info'>Redeem</button></div>");
-	$("#title").html("Profile > Check Conversion");
-	$("#header").html("Check Conversion");
+	$("#title").html("Profile > Redeem Check");
+	$("#header").html("Redeem Check");
 });
 
 $("#Savings_Cert").click(function(){
@@ -460,17 +452,15 @@ $("#body").on("click", "#cert_list", function() {
 
 $("#body").on("click", "#create_cert", function() {
 	$("#body").html("<h3><b>New Savings Certificate</b></h3><br><div class='form-group'><br><label>Client ID</label><input type='text' class='form-control' id='ID' placeholder='SSN of client' required></div><div class='form-group'><label>Account ID (Optional)</label><input type='text' class='form-control' id='accountNum' placeholder='Account number associted with new cerificate'></div><div class='form-group'><label>Amount</label><input type='text' class='form-control' id='amount' placeholder='Amount deposited' required='true'></div><label>Certificate Type</label><select class='form-control' id='cert_type'></select></div><h4><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='cert_create' class='btn btn-info'>Create</button></div>");
-	$("#title").append(" > Savings Certificate Creation");
-});
-
-$("#body").on("click", "#cert_type", function() {
 	$.ajax({
 		type: "POST",
 		url : "php/list_savings_certificate_types.php",
 		success: function(result){
 			$("#cert_type").html(result);
+			console.log(result);
 		}
 	});
+	$("#title").append(" > Savings Certificate Creation");
 });
 
 $("#body").on("click", "#cert_create", function() {

@@ -1,7 +1,7 @@
 <?php
 	if (session_start())
 	{
-		if (array_key_exists('clientId', $_POST) || array_key_exists('client_id', $_SEESION))
+		if (array_key_exists('clientId', $_POST) || array_key_exists('client_id', $_SESSION))
 		{
 			if (array_key_exists('logged_in', $_SESSION) && $_SESSION['logged_in'])
 			{
