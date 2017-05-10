@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS credit_card (
 	max DOUBLE PRECISION NOT NULL,
 	currency CHAR(3) NOT NULL,
 	pin VARCHAR(256) NOT NULL,
-	id VARCHAR(30)
+	id VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS savings_account (
@@ -90,12 +90,8 @@ CREATE TABLE IF NOT EXISTS bank.check (
 
 CREATE TABLE IF NOT EXISTS debit_card (
 	cardNum INT NOT NULL,
-	pin VARCHAR(256) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS guarantees (
-	id VARCHAR(30) NOT NULL,
-	loanNum INT NOT NULL
+	pin VARCHAR(256) NOT NULL,
+	id VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS guaranteed_by (
@@ -148,9 +144,6 @@ ALTER TABLE bank.check
 
 ALTER TABLE debit_card
 	ADD PRIMARY KEY (cardNum);
-
-ALTER TABLE guarantees
-	ADD PRIMARY KEY (id, loanNum);
 
 ALTER TABLE guaranteed_by
 	ADD PRIMARY KEY (certificateNum, loanNum);
@@ -206,10 +199,6 @@ ALTER TABLE checking_account
 
 ALTER TABLE bank.check
 	ADD CONSTRAINT check_accountNum_FK FOREIGN KEY (accountNum) REFERENCES checking_account (accountNum) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE guarantees
-	ADD CONSTRAINT guarantees_id_FK FOREIGN KEY (id) REFERENCES client (id) ON DELETE CASCADE ON UPDATE CASCADE,
-	ADD CONSTRAINT guarantees_loanNum_FK FOREIGN KEY (loanNum) REFERENCES loan (loanNum) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE guaranteed_by
 	ADD CONSTRAINT guaranteed_by_certificateNum_FK FOREIGN KEY (certificateNum) REFERENCES savings_certificate (certificateNum) ON DELETE CASCADE ON UPDATE CASCADE,
