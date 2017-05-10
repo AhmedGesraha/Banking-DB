@@ -12,6 +12,7 @@ $(document).ready(function(){
 			{
 				$("#page_contents").show();
 				$("#login").hide();
+				$("#Home").click();
 			}
 
 			if(result == 'c')
@@ -50,6 +51,22 @@ $(document).ready(function(){
 
 $("#Home").click(function(){
 	$("#title").html("Profile > Home");
+	$.ajax({
+		type: "POST",
+		url : "php/is_logged_in.php",
+		success: function(result){
+			if(result == 'c')
+				$.ajax({
+					type: "POST",
+					url : "php/get_client_info.php",
+					success: function(result){
+						$("#body").html(result);
+					}
+				});
+			else if(result == 's' || result == 'm')
+				$("#body").html("<h3><b>Quick Links</b></h3><br><div class='col-sm-8'><button type='button' id='add_account' class='btn btn-info'>Add Account to Debit Card</button></div><div class='col-sm-8'><button type='button' id='list_cert' class='btn btn-info'>List Savings Certificates</button></div><div class='col-sm-3'><button type='button' id='list_savings' class='btn btn-info'>List Savings Accounts of a Client</button></div><div class='col-sm-3'><button type='button' id='list_checking' class='btn btn-info'>List Checking Accounts of a Client</button></div>");
+		}
+	});
 	$("#header").html("Home");
 });
 

@@ -19,7 +19,13 @@
 				
 				$result = mysqli_fetch_assoc($result);
 
-				echo "(".$result['id'].",".$result['status'].",".$result['dateOfBirth'].",".$result['username'].",".$result['address'].",".$result['phone'].",".$result['salary'].",".$result['fname'].",".$result['lname'].")";
+				echo "<b>Client ID: </b>".$result['id']."<br><br>";
+				echo "<b>First name: </b>".$result['fname']."<br>";
+				echo "<b>Last name: </b>".$result['lname']."<br>";
+				echo "<b>Date of birth: </b>".$result['dateOfBirth']."<br><br>";
+				echo "<b>Address: </b>".$result['address']."<br>";
+				echo "<b>Phone number: </b>".$result['phone']."<br>";
+				echo "<b>Salary: </b>".$result['salary']."<br>";
 
 				mysqli_close($connection);
 			}
