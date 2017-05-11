@@ -1,19 +1,18 @@
 <?php
 	if (session_start())
 	{
-		if (array_key_exists('pin', $_POST) && array_key_exists('clientId', $_POST))
+		if (array_key_exists('loanNum', $_POST) && array_key_exists('amount', $_POST))
 		{
-			$pin = hash('sha256', $_POST['pin'], false);
 			if (array_key_exists('logged_in', $_SESSION) && array_key_exists('login_type', $_SESSION) && $_SESSION['logged_in'] && ($_SESSION['login_type'] == 's' || $_SESSION['login_type'] == 'm'))
 			{
-				$insert_query = "INSERT INTO debit_card(pin, id) VALUES('".$pin."','".$_POST['clientId']."')";
+				$update_query = "UPDATE loan SET paid=paid+".$_POST['amount']." WHERE loanNum=".$_POST['loanNum'];
 
 				$connection = mysqli_connect("localhost", "root", "", "bank");
 				
-				mysqli_query($connection, $insert_query);
-				if (mysqli_affected_rows($connection) >= 1)
+				mysqli_query($connection, $update_query);
+				if (mysqli_affected_rows($connection) == 1)
 				{
-					echo "<b>Card number: </b>".mysqli_insert_id($connection);
+					echo 0;
 				}
 				else 			// insert failed
 				{
@@ -24,7 +23,7 @@
 			}
 			else 		// dafuq?!
 			{
-				echo "I don't think you can do that...";
+				echo "...";
 			}
 		}
 		else 		// failed to get required input parameters

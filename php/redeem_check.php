@@ -15,20 +15,24 @@
 					$result = mysqli_fetch_assoc($result);
 					if ($result['available'] >= $_POST['amount'])
 					{
-						$insert_query = "INSERT INTO check(checkNum, accountNum, redeemer_fname, redeemer_lname, writingDate, amount) VALUES(".$_POST['checkNum'].",'".$_POST['accountNum']."','".$_POST['redeemerFname']."','".$_POST['redeemerLname']."','".$_POST['writingDate']."',".$_POST['amount'].")";
+						$insert_query = "INSERT INTO bank.check(`checkNum`, `accountNum`, `redeemer_fname`, `redeemer_lname`, `writingDate`, `amount`) VALUES (".$_POST['checkNum'].",".$_POST['accountNum'].",'".$_POST['redeemerFname']."','".$_POST['redeemerLname']."','".$_POST['writingDate']."',".$_POST['amount'].")";
+
+						echo $insert_query;
 
 						$update_query = "UPDATE checking_account SET balance=balance-".$_POST['amount'].",available=available-".$_POST['amount']." WHERE accountNum='".$_POST['accountNum']."'";
 
 						$success = true;
 				
 						mysqli_query($connection, $insert_query);
-						if (mysqli_affected_rows($connection) != 1)
+						if (mysqli_affected_rows($connection) == 1)
 						{
-							$success = false;
+							mysqli_query($connection, $update_query);
+							if (mysqli_affected_rows($connection) != 1)
+							{
+								$success = false;
+							}
 						}
-						
-						mysqli_query($connection, $update_query);
-						if (mysqli_affected_rows($connection) != 1)
+						else
 						{
 							$success = false;
 						}

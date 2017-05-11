@@ -83,9 +83,9 @@ $("#Create_Account").click(function(){
 });
 
 $("#Signup").click(function(){
-	$("#title").html("Profile > New Account");
+	$("#title").html("Profile > New client");
 	$("#body").html("<h3><b>Sign up</b></h3><br><div class='form-group'><label>First Name</label><input type='text' class='form-control' id='First_Name' placeholder='First name' required></div><div class='form-group'><label>Last Name</label><input type='text' class='form-control' id='Last_Name' placeholder='Last name' required></div><div class='form-group'><label>Date of Birth</label><input type='date' max='1999-12-31' class='form-control' id='DoB' required></div><div class='form-group'><label>ID</label><input type='text' class='form-control' id='ID' placeholder='SSN of client' required></div><div class='form-group'><label>Address (optional)</label><input type='text' class='form-control' id='Address' placeholder='Address'></div><div class='form-group'><label>Phone No. (optional)</label><input type='text' class='form-control' id='Phone' placeholder='Phone #'></div><div class='form-group'><label>Salary (optional)</label><input type='text' class='form-control' id='Salary' placeholder='Salary'></div><h4><small id='error_div' style='color:red'></small></h4><br><div class='col-sm-4'><button type='button' class='btn btn-info' id='signup'>Sign up</button></div>");
-	$("#header").html("New Account");
+	$("#header").html("New client");
 });
 
 $("#Accounts").click(function(){
@@ -110,7 +110,7 @@ $("#Debit_Credit").click(function(){
 });
 
 $("#Loans").click(function(){
-	$("#body").html();
+	$("#body").html("<div class=\"col-sm-3\"><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"issue_loan\">Issue loan</button></div><div class=\"col-sm-offset-1 col-sm-3\"><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"pay_loan\">Pay loan</button></div><br><br><br><div class=\"col-sm-offset-2 col-sm-3\"><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"list_loans\">List loans</button></div>");
 	$("#title").html("Profile > Loans");
 	$("#header").html("Loans");
 });
@@ -315,7 +315,7 @@ $("#body").on("click", "#debit_create", function() {
 			else if(result == 4)
 				$("#error_div").html("No such client");
 			else
-				location.href="home.html";
+			    $("#body").html(result);
 		}
 	});
 });
@@ -342,7 +342,7 @@ $("#body").on("click", "#credit_create", function() {
 			else if(result == 4)
 				$("#error_div").html("No such client");
 			else
-				location.href="home.html";
+				$("#body").html(result);
 		}
 	});
 });
@@ -484,10 +484,11 @@ $("#body").on("click", "#cert_create", function() {
 	var clientId = $("#ID").val();
 	var certTypeId = $("#cert_type").val();
 	var amount = $("#amount").val();
+	var accountNum = $("#accountNum").val();
 	$.ajax({
 		type: "POST",
 		url : "php/new_savings_certificate.php",
-		data: {"clientId" : clientId,"certTypeId" : certTypeId,"amount" : amount},
+		data: {"clientId" : clientId,"certTypeId" : certTypeId,"amount" : amount, "accountNum": accountNum},
 		success: function(result){
 			if(result == 1)
 				$("#error_div").html("Session error");
@@ -496,12 +497,121 @@ $("#body").on("click", "#cert_create", function() {
 			if(result == 3)
 				$("#error_div").html("Unexpected error");
 			else
-				$("#body").html(result);
+			    location.href = "home.html";
 		}
 	});
+});
+
+$("#body").on("click", "#issue_loan", function() {
+	$("#body").html("<h3><b>Issue loan</b></h3><br><div class='form-group'><br><label>Client ID</label><input type='text' class='form-control' id='ID' placeholder='SSN of client' required></div><div class='form-group'><label>Amount</label><input type='text' class='form-control' id='amount' placeholder='Amount to loan' required='true'></div><div class='form-group'><label>Guaratee</label><input type='text' class='form-control' id='guarantee' placeholder='Guarateeing certificates (separated by commas)' required='true'></div></div><h4><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='loan_issue' class='btn btn-info'>Issue</button></div>");
+	$("#title").append(" > Issue loan");
+});
+
+$("#body").on("click", "#loan_issue", function() {
+	var clientId = $("#ID").val();
+	var amount = $("#amount").val();
+	var certList = JSON.stringify($("#guarantee").val().split(","));
+	$.ajax({
+		type: "POST",
+		url : "php/issue_loan.php",
+		data: {"clientId" : clientId,"amount" : amount, "guaranteeList" : certList},
+		success: function(result){
+			if(result == 1)
+				$("#error_div").html("Session error");
+			if(result == 2)
+				$("#error_div").html("All required fields must be filled");
+			if(result == 3)
+				$("#error_div").html("Unexpected error");
+			else
+			    location.href = "home.html";
+		}
+	});
+});
+
+$("#body").on("click", "#pay_loan", function() {
+	$("#body").html("<h3><b>Pay loan</b></h3><br><div class='form-group'><br><label>Loan number</label><input type='text' class='form-control' id='loan_num' placeholder='Loan number' required></div><div class='form-group'><label>Amount</label><input type='text' class='form-control' id='amount' placeholder='Amount to pay' required='true'></div></div><h4><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='loan_pay' class='btn btn-info'>Pay</button></div>");
+	$("#title").append(" > Pay loan");
+});
+
+$("#body").on("click", "#loan_pay", function () {
+    var loan_num = $("#loan_num").val();
+    var amount = $("#amount").val();
+    $.ajax({
+        type: "POST",
+        url: "php/pay_loan.php",
+        data: { "loanNum": loan_num, "amount": amount },
+        success: function (result) {
+            if (result == 1)
+                $("#error_div").html("Session error");
+            if (result == 2)
+                $("#error_div").html("All required fields must be filled");
+            if (result == 3)
+                $("#error_div").html("Unexpected error");
+            else
+                location.href = "home.html";
+        }
+    });
+});
+
+$("#body").on("click", "#list_loans", function() {
+
+	$.ajax({
+	    type: "POST",
+	    url: "php/is_logged_in.php",
+	    success: function (result) {
+	        if (result == 'c')
+	            $.ajax({
+	                type: "POST",
+	                url: "php/list_loans.php",
+	                success: function (result) {
+	                    $("#body").html(result);
+	                }
+	            });
+	        else
+	            $("#body").html("<h3><b>List loans</b></h3><br><div class='form-group'><br><label>Client ID</label><input type='text' class='form-control' id='ID' placeholder='SSN of client' required></div></div><h4><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='loans_list' class='btn btn-info'>List</button></div>");
+	    }
+	});
+	$("#title").append(" > List loans");
+});
+
+$("#body").on("click", "#loans_list", function () {
+    var clientId = $("#ID").val();
+    $.ajax({
+        type: "POST",
+        url: "php/list_loans.php",
+        data: { "clientId": clientId },
+        success: function (result) {
+            $("#body").html(result);
+        }
+    });
 });
 
 $("#body").on("click", "#add_account", function() {
 	$("#body").html("<h3><b>Add Account to Debit Card</b></h3><br><div class='form-group'><label>Card No</label><input type='text' class='form-control' id='cardNum' placeholder='Card number' required></div><div class='form-group'><label>Account No</label><input type='text' class='form-control' id='accountNum' placeholder='Account number' required></div><div class='form-group'><label>Type</label><select class='form-control' id='type'><option value='s'>Savings</option><option value='c'>Checking</option></select></div><h4><small id='error_div' style='color:red'></small></h4><div class='col-sm-1'><button type='submit' id='add' class='btn btn-info'>Add</button></div>");
 	$("#title").append(" > Account-Debit Card Associating");
+});
+
+$("#body").on("click", "#add", function() {
+    var card_num = $("#cardNum").val();
+    var account_num = $("#accountNum").val();
+    var accountType = $("#type").val();
+    $.ajax({
+        type: "POST",
+        url: "php/list_loans.php",
+        data: { "cardNum": card_num, "accountNum": account_num, "accountType": accountType },
+        success: function (result) {
+            if (result == 1)
+                $("#error_div").html("Session error");
+            else if (result == 2)
+                $("#error_div").html("All fields are required");
+            else if (result == 3)
+                $("#error_div").html("No such account");
+            else if (result == 4)
+                $("#error_div").html("No such card");
+            else if (result == 5)
+                $("#error_div").html("Unexpected error");
+            else
+                location.href = "home.html";
+        }
+    });
 });

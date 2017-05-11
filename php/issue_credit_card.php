@@ -13,7 +13,7 @@
 				mysqli_query($connection, $insert_query);
 				if (mysqli_affected_rows($connection) >= 1)
 				{
-					echo "(0,".mysqli_insert_id($connection).")";
+					echo "<b>Card number: </b>".mysqli_insert_id($connection);
 				}
 				else 			// insert failed
 				{
